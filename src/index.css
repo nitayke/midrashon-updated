@@ -40,23 +40,23 @@
   font-display: swap;
 }
 
-/* Light Theme for Midrashon: Soft Blossom Rose, Rich Wine Burgundy & Dark Charcoal */
+/* Distinct Professional Palette for Midrashon: Blossom Rose & Rich Wine Berry */
 :root {
-  --bg-main: #fdf6f7;
+  --bg-main: #fdf4f6;
   --bg-card: #ffffff;
-  --bg-card-hover: #fff0f3;
-  --border-color: #f3c2ce;
+  --bg-card-hover: #fce7f3;
+  --border-color: #fbcfe8;
   --text-primary: #111827;
   --text-secondary: #4b5563;
-  --primary-accent: #881337;
-  --primary-accent-hover: #701a75;
-  --gold-accent: #be123c;
+  --primary-accent: #9f1239;
+  --primary-accent-hover: #881337;
+  --gold-accent: #e11d48;
   --success-color: #059669;
   --font-display: 'Yiddishkeit', 'Frank Ruhl Libre', serif;
   --font-body: 'Frank Ruhl Libre', Georgia, serif;
-  --radius-lg: 12px;
-  --radius-md: 8px;
-  --radius-sm: 4px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
 }
 
 * {
@@ -65,7 +65,7 @@
   padding: 0;
   font-family: var(--font-body);
   scrollbar-width: thin;
-  scrollbar-color: #f43f5e #fdf6f7;
+  scrollbar-color: #f43f5e #fdf4f6;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-touch-callout: none;
   touch-action: manipulation;
@@ -98,24 +98,24 @@ button:active, .chip-card:active {
   filter: brightness(0.95);
 }
 
-/* Custom Sleek Scrollbar */
+/* Custom Sleek Scrollbar in Rose Pink */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f3ede2;
+  background: #fdf4f6;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c4b69f;
+  background: #f472b6;
   border-radius: 999px;
-  border: 2px solid #f3ede2;
+  border: 2px solid #fdf4f6;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a89981;
+  background: #e11d48;
 }
 
 body {
@@ -141,7 +141,7 @@ body {
 .app-title {
   font-size: 2.2rem;
   font-weight: 700;
-  color: #111827;
+  color: #881337;
   font-family: var(--font-display);
 }
 
@@ -154,19 +154,19 @@ body {
   font-family: var(--font-body);
 }
 
-/* Clean High-Contrast Ivory Card */
+/* Clean High-Contrast Ivory Card with Rose Border */
 .glass-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin-bottom: 1.2rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(159, 18, 57, 0.06);
   transition: border-color 0.15s ease;
 }
 
 .glass-card:hover {
-  border-color: #d4c7b2;
+  border-color: #f472b6;
 }
 
 .section-title {
@@ -180,17 +180,17 @@ body {
   font-family: var(--font-body);
 }
 
-/* Buttons - High Contrast Dark Espresso & Sand */
+/* Buttons - High Contrast Wine Berry & Blossom Pink */
 .btn-primary {
-  background: #52341d;
+  background: #9f1239;
   color: #ffffff;
-  border: 1px solid #3f2411;
+  border: 1px solid #881337;
   padding: 0.7rem 1.4rem;
   font-size: 0.98rem;
   font-weight: 700;
   border-radius: var(--radius-md);
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(82, 52, 29, 0.25);
+  box-shadow: 0 3px 10px rgba(159, 18, 57, 0.25);
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -200,13 +200,13 @@ body {
 }
 
 .btn-primary:hover {
-  background: #3f2411;
+  background: #881337;
 }
 
 .btn-secondary {
-  background: #ede5d7;
-  color: #111827;
-  border: 1px solid #d9ccb9;
+  background: #fce7f3;
+  color: #881337;
+  border: 1px solid #f472b6;
   padding: 0.65rem 1.2rem;
   font-size: 0.92rem;
   font-weight: 700;
@@ -221,20 +221,21 @@ body {
 }
 
 .btn-secondary:hover {
-  background: #e2d7c5;
-  border-color: #c4b49d;
+  background: #fbcfe8;
+  border-color: #e11d48;
+  color: #9f1239;
 }
 
 .btn-gold {
-  background: #b47828;
+  background: #e11d48;
   color: #ffffff;
-  border: 1px solid #94601c;
+  border: 1px solid #be123c;
   padding: 0.7rem 1.4rem;
   font-size: 0.95rem;
   font-weight: 700;
   border-radius: var(--radius-md);
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: 0 3px 10px rgba(225, 29, 72, 0.25);
   transition: all 0.15s ease;
   display: inline-flex;
   align-items: center;
@@ -243,7 +244,7 @@ body {
 }
 
 .btn-gold:hover {
-  background: #94601c;
+  background: #be123c;
 }
 
 /* Chip Cards Grid */
@@ -254,8 +255,8 @@ body {
 }
 
 .chip-card {
-  background: #ede5d7;
-  border: 2px solid #d9ccb9;
+  background: #fdf2f8;
+  border: 2px solid #fbcfe8;
   border-radius: var(--radius-md);
   padding: 0.85rem 0.6rem;
   text-align: center;
@@ -263,29 +264,29 @@ body {
   transition: all 0.15s ease;
   font-weight: 700;
   font-size: 0.98rem;
-  color: #111827;
+  color: #881337;
   font-family: var(--font-body);
 }
 
 .chip-card:hover {
-  border-color: #a8977e;
-  background: #e3d9c7;
+  border-color: #f472b6;
+  background: #fce7f3;
 }
 
 .chip-card.selected {
-  background: #52341d;
-  border: 2px solid #3f2411;
+  background: #9f1239;
+  border: 2px solid #881337;
   color: #ffffff;
   font-weight: 700;
 }
 
 /* Sliders */
 .slider-group {
-  background: #f8f4ec;
+  background: #fff0f3;
   padding: 0.9rem;
   border-radius: var(--radius-md);
   margin-bottom: 0.9rem;
-  border: 1px solid #e2d9c8;
+  border: 1px solid #fbcfe8;
 }
 
 .slider-header {
@@ -303,13 +304,13 @@ body {
 }
 
 .slider-value-badge {
-  background: #ede5d7;
-  color: #52341d;
+  background: #fce7f3;
+  color: #881337;
   padding: 0.15rem 0.65rem;
   border-radius: 9999px;
   font-weight: 800;
   font-size: 0.88rem;
-  border: 1px solid #52341d;
+  border: 1px solid #f472b6;
   font-family: var(--font-body);
 }
 
@@ -326,9 +327,9 @@ body {
 .custom-range {
   -webkit-appearance: none;
   width: 100%;
-  height: 5px;
+  height: 6px;
   border-radius: 999px;
-  background: #d9ccb9;
+  background: #fbcfe8;
   outline: none;
 }
 
@@ -338,7 +339,7 @@ body {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #52341d;
+  background: #9f1239;
   cursor: pointer;
   transition: transform 0.1s ease;
 }
@@ -357,7 +358,7 @@ body {
 .custom-select-trigger {
   width: 100%;
   background: #ffffff;
-  border: 1px solid #d9ccb9;
+  border: 1px solid #fbcfe8;
   color: var(--text-primary);
   padding: 0.75rem 0.9rem;
   border-radius: var(--radius-md);
@@ -372,7 +373,7 @@ body {
 }
 
 .custom-select-trigger:hover, .custom-select-trigger.active {
-  border-color: #52341d;
+  border-color: #9f1239;
 }
 
 .custom-select-dropdown {
@@ -381,12 +382,12 @@ body {
   left: 0;
   right: 0;
   background: #ffffff;
-  border: 1px solid #d9ccb9;
+  border: 1px solid #fbcfe8;
   border-radius: var(--radius-md);
   max-height: 240px;
   overflow-y: auto;
   z-index: 100;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 25px rgba(159, 18, 57, 0.12);
 }
 
 .custom-select-option {
@@ -402,13 +403,13 @@ body {
 }
 
 .custom-select-option:hover {
-  background: #f8f4ec;
-  color: #111827;
+  background: #fdf2f8;
+  color: #881337;
 }
 
 .custom-select-option.selected {
-  background: #ede5d7;
-  color: #52341d;
+  background: #fce7f3;
+  color: #9f1239;
   font-weight: 700;
 }
 
@@ -429,7 +430,7 @@ body {
 
 .modal-content {
   background: #ffffff;
-  border: 1px solid #e2d9c8;
+  border: 1px solid #fbcfe8;
   border-radius: var(--radius-lg);
   max-width: 620px;
   width: 100%;
@@ -443,7 +444,7 @@ body {
 .input-field {
   width: 100%;
   background: #ffffff;
-  border: 1px solid #d9ccb9;
+  border: 1px solid #fbcfe8;
   color: var(--text-primary);
   padding: 0.7rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -455,14 +456,14 @@ body {
 }
 
 .input-field:focus {
-  border-color: #52341d;
+  border-color: #9f1239;
 }
 
 /* Match Score Badge */
 .match-score-badge {
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  color: #047857;
+  background: #fdf2f8;
+  border: 1px solid #f472b6;
+  color: #9f1239;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-weight: 800;
@@ -473,7 +474,7 @@ body {
 /* Yeshiva Result Card */
 .yeshiva-result-card {
   background: #ffffff;
-  border: 1px solid #e2d9c8;
+  border: 1px solid #fbcfe8;
   border-radius: var(--radius-md);
   padding: 1.1rem;
   margin-bottom: 0.85rem;
@@ -484,7 +485,7 @@ body {
 }
 
 .yeshiva-result-card:hover {
-  border-color: #52341d;
+  border-color: #9f1239;
 }
 
 .tag {
@@ -493,8 +494,8 @@ body {
   border-radius: 4px;
   font-size: 0.82rem;
   font-weight: 600;
-  background: #ede5d7;
-  color: #4b5563;
+  background: #fce7f3;
+  color: #881337;
   font-family: var(--font-body);
 }
 
