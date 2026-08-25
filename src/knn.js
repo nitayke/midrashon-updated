@@ -237,13 +237,15 @@ export const calculateKNNMatches = (userPreferences, yeshivotList, k = 3) => {
     const cosineSim = (normU > 0 && normV > 0) ? (dotProduct / (Math.sqrt(normU) * Math.sqrt(normV))) : 1.0;
     const rmsDistance = totalWeight > 0 ? Math.sqrt(weightedDistSq / totalWeight) : 0;
 
-    // Filter by track compatibility if specific type selected
+    // Strict Track compatibility check matching original Midrashon logic
     let typePenalty = 0;
     if (type && type !== 'all') {
-      if (midrasha.tracks && midrasha.tracks[type] === false) {
-        typePenalty = 0.35;
+      if (midrasha.tracks && midrasha.tracks[type] === true) {
+        typePenalty = 0;
+      } else if (midrasha.tracks && midrasha.tracks[type] === false) {
+        typePenalty = 0.60;
       } else if (midrasha.type !== type) {
-        typePenalty = 0.20;
+        typePenalty = 0.25;
       }
     }
 
