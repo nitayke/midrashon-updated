@@ -33,7 +33,7 @@
     "id": "m_2",
     "name": "בת ציון",
     "type": "service_combo",
-    "region": "center",
+    "region": "jerusalem",
     "tracks": {
       "before_service": false,
       "after_service": false,
@@ -63,7 +63,7 @@
     "id": "m_3",
     "name": "מדרשת דניאלי",
     "type": "before_service",
-    "region": "center",
+    "region": "north",
     "tracks": {
       "before_service": true,
       "after_service": false,
@@ -123,7 +123,7 @@
     "id": "m_5",
     "name": "מבראשית",
     "type": "before_service",
-    "region": "center",
+    "region": "south",
     "tracks": {
       "before_service": true,
       "after_service": true,
@@ -183,7 +183,7 @@
     "id": "m_7",
     "name": "נוב",
     "type": "before_service",
-    "region": "center",
+    "region": "north",
     "tracks": {
       "before_service": true,
       "after_service": true,
@@ -243,7 +243,7 @@
     "id": "m_9",
     "name": "שירת חברון",
     "type": "after_service",
-    "region": "jerusalem",
+    "region": "south",
     "tracks": {
       "before_service": false,
       "after_service": true,
@@ -423,7 +423,7 @@
     "id": "m_15",
     "name": "מכון אורה",
     "type": "before_service",
-    "region": "center",
+    "region": "jerusalem",
     "tracks": {
       "before_service": true,
       "after_service": true,
@@ -453,7 +453,7 @@
     "id": "m_16",
     "name": "מעון",
     "type": "after_service",
-    "region": "jerusalem",
+    "region": "south",
     "tracks": {
       "before_service": false,
       "after_service": true,
@@ -483,7 +483,7 @@
     "id": "m_17",
     "name": "מכינת לפידות",
     "type": "before_army",
-    "region": "center",
+    "region": "south",
     "tracks": {
       "before_service": false,
       "after_service": false,
@@ -513,7 +513,7 @@
     "id": "m_18",
     "name": "שחרי - עופרה",
     "type": "after_service",
-    "region": "center",
+    "region": "jerusalem",
     "tracks": {
       "before_service": false,
       "after_service": true,
@@ -723,7 +723,7 @@
     "id": "m_25",
     "name": "עין הנציב",
     "type": "before_service",
-    "region": "center",
+    "region": "north",
     "tracks": {
       "before_service": true,
       "after_service": false,
@@ -813,7 +813,7 @@
     "id": "m_28",
     "name": "דרישה",
     "type": "before_service",
-    "region": "center",
+    "region": "jerusalem",
     "tracks": {
       "before_service": true,
       "after_service": true,
@@ -873,7 +873,7 @@
     "id": "m_30",
     "name": "מדרשת רוני",
     "type": "before_army",
-    "region": "center",
+    "region": "south",
     "tracks": {
       "before_service": false,
       "after_service": false,
