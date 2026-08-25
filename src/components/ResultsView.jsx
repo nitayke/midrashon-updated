@@ -325,17 +325,16 @@ export default function ResultsView({ results, userPreferences, yeshivotList, on
         </button>
 
         {/* Shvushon Ecosystem Links & Creators */}
-        <div style={{ textAlign: 'center', width: '100%', paddingTop: '1.5rem', borderTop: '1px solid #f3c2ce' }}>
+        <div style={{ textAlign: 'center', width: '100%', paddingTop: '1.5rem', borderTop: '1px solid #fbcfe8' }}>
           <div className="supporting-copy">לשאר המיזמים מבית "שבושון":</div>
           <div className="project-links">
             <a href="https://shvushon1.vercel.app" target="_blank" rel="noreferrer">שבושון</a>
-            <a href="https://shvushon.github.io/midrashon" target="_blank" rel="noreferrer">מדרשון</a>
             <a href="https://shvushon.github.io/shlichim" target="_blank" rel="noreferrer">שליחון</a>
             <a href="https://shvushon.github.io/shvushon2" target="_blank" rel="noreferrer">שבושון 2</a>
             <a href="https://shvushon.github.io/hahamim" target="_blank" rel="noreferrer">חזלון</a>
           </div>
           <div className="supporting-copy" style={{ fontSize: '0.9rem', color: '#4b5563', marginTop: '0.6rem' }}>
-            <strong>יוצרים:</strong> שלמה אברמסון, אורי בובליל, נתאי קסנר
+            <strong>יוצרות:</strong> אוריה קסנר, מעין רייך
           </div>
         </div>
       </div>
