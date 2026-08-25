@@ -1,0 +1,902 @@
+[
+  {
+    "id": "m_1",
+    "name": "אוריה - גבעת שמואל",
+    "type": "service_combo",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 1,
+      "rav_kook": 5,
+      "female_figures": 1,
+      "chassidut": 4,
+      "social": 5,
+      "personal_relation": 5,
+      "liberalism": 3,
+      "halacha_commitment": 4.5,
+      "conditions": 4,
+      "emunah": 3,
+      "tanach": 4,
+      "non_torah_activities": 1
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.824Z"
+  },
+  {
+    "id": "m_2",
+    "name": "בת ציון",
+    "type": "service_combo",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 1,
+      "rav_kook": 3,
+      "female_figures": 3,
+      "chassidut": 3,
+      "social": 4,
+      "personal_relation": 3,
+      "liberalism": 2,
+      "halacha_commitment": 4.5,
+      "conditions": 3.2,
+      "emunah": 3,
+      "tanach": 2,
+      "non_torah_activities": 1
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.846Z"
+  },
+  {
+    "id": "m_3",
+    "name": "מדרשת דניאלי",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": false,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3.3,
+      "gemara": 1,
+      "rav_kook": 4.3,
+      "female_figures": 2.3,
+      "chassidut": 3.2,
+      "social": 4.5,
+      "personal_relation": 4.7,
+      "liberalism": 3,
+      "halacha_commitment": 4.75,
+      "conditions": 4.53,
+      "emunah": 4.7,
+      "tanach": 3.2,
+      "non_torah_activities": 3.35
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.846Z"
+  },
+  {
+    "id": "m_4",
+    "name": "יעלה- מצפה רמון",
+    "type": "after_service",
+    "region": "south",
+    "tracks": {
+      "before_service": false,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.7,
+      "gemara": 1,
+      "rav_kook": 4.6,
+      "female_figures": 2.4,
+      "chassidut": 3.3,
+      "social": 4.5,
+      "personal_relation": 4.1,
+      "liberalism": 2.7,
+      "halacha_commitment": 3.8,
+      "conditions": 3.34,
+      "emunah": 4.1,
+      "tanach": 3.4,
+      "non_torah_activities": 3.9
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.847Z"
+  },
+  {
+    "id": "m_5",
+    "name": "מבראשית",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 1,
+      "rav_kook": 2,
+      "female_figures": 4,
+      "chassidut": 4,
+      "social": 4,
+      "personal_relation": 3,
+      "liberalism": 3,
+      "halacha_commitment": 4,
+      "conditions": 3.9,
+      "emunah": 4,
+      "tanach": 2,
+      "non_torah_activities": 2
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.847Z"
+  },
+  {
+    "id": "m_6",
+    "name": "מדרשת מעיין - שדרות",
+    "type": "before_service",
+    "region": "south",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.8,
+      "gemara": 1,
+      "rav_kook": 4.3,
+      "female_figures": 3.2,
+      "chassidut": 1.8,
+      "social": 4.2,
+      "personal_relation": 4,
+      "liberalism": 1.8,
+      "halacha_commitment": 4.4,
+      "conditions": 4,
+      "emunah": 4.4,
+      "tanach": 4.4,
+      "non_torah_activities": 2.6
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.847Z"
+  },
+  {
+    "id": "m_7",
+    "name": "נוב",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2.6,
+      "gemara": 1,
+      "rav_kook": 3.8,
+      "female_figures": 2.9,
+      "chassidut": 4.3,
+      "social": 3.9,
+      "personal_relation": 4.6,
+      "liberalism": 3.5,
+      "halacha_commitment": 4.05,
+      "conditions": 3.52,
+      "emunah": 4.5,
+      "tanach": 3.5,
+      "non_torah_activities": 2.4
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.847Z"
+  },
+  {
+    "id": "m_8",
+    "name": "מדרשת נטע - בית שאן",
+    "type": "before_service",
+    "region": "north",
+    "tracks": {
+      "before_service": true,
+      "after_service": false,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2.8,
+      "gemara": 1,
+      "rav_kook": 3.8,
+      "female_figures": 3,
+      "chassidut": 4.5,
+      "social": 5,
+      "personal_relation": 4.8,
+      "liberalism": 4,
+      "halacha_commitment": 3.8,
+      "conditions": 2.67,
+      "emunah": 4,
+      "tanach": 3.8,
+      "non_torah_activities": 4.35
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.847Z"
+  },
+  {
+    "id": "m_9",
+    "name": "שירת חברון",
+    "type": "after_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": false,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2.8,
+      "gemara": 1.1,
+      "rav_kook": 5,
+      "female_figures": 2.9,
+      "chassidut": 1.5,
+      "social": 4.5,
+      "personal_relation": 4.1,
+      "liberalism": 1.7,
+      "halacha_commitment": 4.8,
+      "conditions": 3.87,
+      "emunah": 4.2,
+      "tanach": 3.7,
+      "non_torah_activities": 2.45
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_10",
+    "name": "תכלת - צפת",
+    "type": "before_service",
+    "region": "north",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.6,
+      "gemara": 1,
+      "rav_kook": 2.5,
+      "female_figures": 3.4,
+      "chassidut": 4.7,
+      "social": 4.3,
+      "personal_relation": 3.6,
+      "liberalism": 2.8,
+      "halacha_commitment": 4.1,
+      "conditions": 2.43,
+      "emunah": 3.5,
+      "tanach": 3.1,
+      "non_torah_activities": 2.9
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_11",
+    "name": "הרובע",
+    "type": "before_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 1.3,
+      "rav_kook": 4.9,
+      "female_figures": 2.8,
+      "chassidut": 1.6,
+      "social": 3.8,
+      "personal_relation": 4.3,
+      "liberalism": 1.5,
+      "halacha_commitment": 4.8,
+      "conditions": 3.72,
+      "emunah": 4.4,
+      "tanach": 3.9,
+      "non_torah_activities": 2.4
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_12",
+    "name": "שילת - קרני שומרון",
+    "type": "after_service",
+    "region": "north",
+    "tracks": {
+      "before_service": false,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3.6,
+      "gemara": 1.5,
+      "rav_kook": 4.4,
+      "female_figures": 3.1,
+      "chassidut": 3.6,
+      "social": 4.1,
+      "personal_relation": 4.2,
+      "liberalism": 3.6,
+      "halacha_commitment": 4.1,
+      "conditions": 3.31,
+      "emunah": 3.6,
+      "tanach": 3.2,
+      "non_torah_activities": 3.1
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_13",
+    "name": "יפו",
+    "type": "service_combo",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.8,
+      "gemara": 1.5,
+      "rav_kook": 4.5,
+      "female_figures": 3,
+      "chassidut": 4.5,
+      "social": 4,
+      "personal_relation": 4.5,
+      "liberalism": 2.8,
+      "halacha_commitment": 4.15,
+      "conditions": 3.37,
+      "emunah": 4,
+      "tanach": 2.5,
+      "non_torah_activities": 3.9
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_14",
+    "name": "אורות עציון - גבעת וושינגטון",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.6,
+      "gemara": 1.9,
+      "rav_kook": 4,
+      "female_figures": 3,
+      "chassidut": 3.3,
+      "social": 4.5,
+      "personal_relation": 4.1,
+      "liberalism": 3.1,
+      "halacha_commitment": 4.3,
+      "conditions": 3.89,
+      "emunah": 3.5,
+      "tanach": 3.8,
+      "non_torah_activities": 3.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_15",
+    "name": "מכון אורה",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 2.8,
+      "gemara": 1.5,
+      "rav_kook": 4.5,
+      "female_figures": 3,
+      "chassidut": 2.4,
+      "social": 4,
+      "personal_relation": 4.2,
+      "liberalism": 2.5,
+      "halacha_commitment": 4.4,
+      "conditions": 3.9,
+      "emunah": 4,
+      "tanach": 3.2,
+      "non_torah_activities": 2.9
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_16",
+    "name": "מעון",
+    "type": "after_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": false,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2.5,
+      "gemara": 2,
+      "rav_kook": 4,
+      "female_figures": 4,
+      "chassidut": 3,
+      "social": 5,
+      "personal_relation": 5,
+      "liberalism": 3,
+      "halacha_commitment": 3.5,
+      "conditions": 3.8,
+      "emunah": 4,
+      "tanach": 3.5,
+      "non_torah_activities": 3.25
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_17",
+    "name": "מכינת לפידות",
+    "type": "before_army",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3.5,
+      "gemara": 2,
+      "rav_kook": 3.5,
+      "female_figures": 4,
+      "chassidut": 3,
+      "social": 5,
+      "personal_relation": 5,
+      "liberalism": 4.5,
+      "halacha_commitment": 4.75,
+      "conditions": 3.95,
+      "emunah": 5,
+      "tanach": 4,
+      "non_torah_activities": 4.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_18",
+    "name": "שחרי - עופרה",
+    "type": "after_service",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2.7,
+      "gemara": 2.3,
+      "rav_kook": 4.3,
+      "female_figures": 3.3,
+      "chassidut": 4.3,
+      "social": 4.7,
+      "personal_relation": 5,
+      "liberalism": 3,
+      "halacha_commitment": 4.15,
+      "conditions": 3.66,
+      "emunah": 3.7,
+      "tanach": 2.7,
+      "non_torah_activities": 2.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_19",
+    "name": "בינת - שבות רחל",
+    "type": "before_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3.1,
+      "gemara": 2.3,
+      "rav_kook": 4.7,
+      "female_figures": 3,
+      "chassidut": 3.1,
+      "social": 4.4,
+      "personal_relation": 4.1,
+      "liberalism": 2,
+      "halacha_commitment": 4.9,
+      "conditions": 2.47,
+      "emunah": 4.4,
+      "tanach": 3.1,
+      "non_torah_activities": 2.45
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_20",
+    "name": "אשירה - קרית מוצקין",
+    "type": "service_combo",
+    "region": "north",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": false,
+      "service_combo": true,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2,
+      "gemara": 3,
+      "rav_kook": 5,
+      "female_figures": 5,
+      "chassidut": 4,
+      "social": 5,
+      "personal_relation": 5,
+      "liberalism": 2,
+      "halacha_commitment": 5,
+      "conditions": 5,
+      "emunah": 4,
+      "tanach": 3,
+      "non_torah_activities": 4.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_21",
+    "name": "מתת לינדנבאום - כרמיאל",
+    "type": "before_service",
+    "region": "north",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 3,
+      "rav_kook": 3,
+      "female_figures": 2,
+      "chassidut": 5,
+      "social": 5,
+      "personal_relation": 4,
+      "liberalism": 3,
+      "halacha_commitment": 3,
+      "conditions": 4.34,
+      "emunah": 3,
+      "tanach": 3.7,
+      "non_torah_activities": 3.65
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_22",
+    "name": "באר ירוחם",
+    "type": "before_service",
+    "region": "south",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 4.3,
+      "rav_kook": 3.3,
+      "female_figures": 4.3,
+      "chassidut": 2.7,
+      "social": 3.7,
+      "personal_relation": 4,
+      "liberalism": 5,
+      "halacha_commitment": 3.35,
+      "conditions": 3.73,
+      "emunah": 4.3,
+      "tanach": 3,
+      "non_torah_activities": 4.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_23",
+    "name": "לוד- לינדנבאום",
+    "type": "before_army",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 4,
+      "rav_kook": 4,
+      "female_figures": 3,
+      "chassidut": 5,
+      "social": 5,
+      "personal_relation": 4,
+      "liberalism": 3,
+      "halacha_commitment": 5,
+      "conditions": 2.9,
+      "emunah": 4,
+      "tanach": 3,
+      "non_torah_activities": 5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_24",
+    "name": "באר אשדוד",
+    "type": "before_service",
+    "region": "south",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 2,
+      "gemara": 4.5,
+      "rav_kook": 3,
+      "female_figures": 4,
+      "chassidut": 4,
+      "social": 4.5,
+      "personal_relation": 4,
+      "liberalism": 5,
+      "halacha_commitment": 3.5,
+      "conditions": 4.45,
+      "emunah": 3.5,
+      "tanach": 4,
+      "non_torah_activities": 4.5
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_25",
+    "name": "עין הנציב",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": false,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3.2,
+      "gemara": 4.2,
+      "rav_kook": 3.2,
+      "female_figures": 4.3,
+      "chassidut": 3.5,
+      "social": 3.2,
+      "personal_relation": 2.9,
+      "liberalism": 4.8,
+      "halacha_commitment": 4.05,
+      "conditions": 4.23,
+      "emunah": 3.1,
+      "tanach": 3.5,
+      "non_torah_activities": 2.55
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_26",
+    "name": "מגדל עוז",
+    "type": "before_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 3.4,
+      "gemara": 4.5,
+      "rav_kook": 2.4,
+      "female_figures": 4.3,
+      "chassidut": 2.9,
+      "social": 3.3,
+      "personal_relation": 3.6,
+      "liberalism": 4.1,
+      "halacha_commitment": 4.35,
+      "conditions": 3.76,
+      "emunah": 3.2,
+      "tanach": 3.7,
+      "non_torah_activities": 1.95
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_27",
+    "name": "נשמת",
+    "type": "before_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": false,
+      "service_combo": false,
+      "academic_combo": true
+    },
+    "ratings": {
+      "halacha": 4,
+      "gemara": 5,
+      "rav_kook": 2,
+      "female_figures": 5,
+      "chassidut": 2.8,
+      "social": 4,
+      "personal_relation": 4.3,
+      "liberalism": 4,
+      "halacha_commitment": 4.95,
+      "conditions": 4,
+      "emunah": 2.8,
+      "tanach": 3,
+      "non_torah_activities": 3.05
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_28",
+    "name": "דרישה",
+    "type": "before_service",
+    "region": "center",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 5,
+      "rav_kook": 1.3,
+      "female_figures": 5,
+      "chassidut": 2,
+      "social": 4.7,
+      "personal_relation": 4.5,
+      "liberalism": 4.5,
+      "halacha_commitment": 4.9,
+      "conditions": 4.88,
+      "emunah": 2.5,
+      "tanach": 2.8,
+      "non_torah_activities": 1.9
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_29",
+    "name": "לינדנבאום-ירושלים",
+    "type": "before_service",
+    "region": "jerusalem",
+    "tracks": {
+      "before_service": true,
+      "after_service": true,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 4,
+      "gemara": 5,
+      "rav_kook": 2.7,
+      "female_figures": 4.3,
+      "chassidut": 3.3,
+      "social": 4,
+      "personal_relation": 4,
+      "liberalism": 5,
+      "halacha_commitment": 3.65,
+      "conditions": 4.63,
+      "emunah": 3.3,
+      "tanach": 3.7,
+      "non_torah_activities": 2.7
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  },
+  {
+    "id": "m_30",
+    "name": "מדרשת רוני",
+    "type": "before_army",
+    "region": "center",
+    "tracks": {
+      "before_service": false,
+      "after_service": false,
+      "before_army": true,
+      "service_combo": false,
+      "academic_combo": false
+    },
+    "ratings": {
+      "halacha": 3,
+      "gemara": 4,
+      "rav_kook": 3,
+      "female_figures": 4,
+      "chassidut": 4,
+      "social": 5,
+      "personal_relation": 5,
+      "liberalism": 5,
+      "halacha_commitment": 3.5,
+      "conditions": 3,
+      "emunah": 4,
+      "tanach": 2,
+      "non_torah_activities": 3
+    },
+    "submissions_count": 1,
+    "created_at": "2026-08-25T21:01:05.848Z"
+  }
+]
