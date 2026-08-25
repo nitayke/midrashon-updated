@@ -11,15 +11,15 @@ import {
 import { getAuth, signInAnonymously } from "firebase/auth";
 import initialMidrashot from './data/initialMidrashot.json';
 
-// Read Firebase keys from environment variables
+// Read Firebase keys from environment variables with fallback to dedicated Midrashon DB (midrashon-64d94)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCa_Ma7rsywO5f1vyITz5NOx2Lpe-TG790",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "midrashon-64d94.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "midrashon-64d94",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "midrashon-64d94.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "821311184972",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:821311184972:web:9c73b35763a10fec7a54e9",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-PG012DBX1P"
 };
 
 export const isFirebaseConfigured = Boolean(
