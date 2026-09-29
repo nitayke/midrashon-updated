@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Plus, Check, RefreshCw, Trash2, Edit3, Lock, LogOut, Inbox, Users, Database } from 'lucide-react';
+import { ShieldCheck, Plus, Check, RefreshCw, Trash2, Edit3, Lock, LogOut, Inbox, Users, Database, TrendingUp } from 'lucide-react';
 import { 
   getYeshivotDB, 
   getYeshivaRequestsDB, 
   getStudentSubmissionsDB, 
+  getContactLeadsDB,
+  deleteContactLeadDB,
+  getAllTestResultsDB,
   approveYeshivaRequestDB, 
   recalculateYeshivaAveragesDB, 
   saveYeshivaDB, 
   deleteYeshivaDB,
   deleteYeshivaRequestDB,
-  deleteStudentSubmissionDB,
-  getContactLeadsDB
+  deleteStudentSubmissionDB
 } from '../firebase';
 import { PARAM_DEFINITIONS, REGIONS, TYPES, REGION_TRANSLATIONS, TYPE_TRANSLATIONS } from '../knn';
 import CustomSelect from './CustomSelect';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 export default function AdminDashboard({ onExitAdmin }) {
   const [password, setPassword] = useState('');
@@ -26,6 +29,7 @@ export default function AdminDashboard({ onExitAdmin }) {
   const [submissions, setSubmissions] = useState([]);
   const [yeshivot, setYeshivot] = useState([]);
   const [leads, setLeads] = useState([]);
+  const [testResults, setTestResults] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
@@ -76,6 +80,8 @@ export default function AdminDashboard({ onExitAdmin }) {
         setYeshivot(await getYeshivotDB().catch(() => []));
       } else if (tabToLoad === 'leads' && (force || leads.length === 0)) {
         setLeads(await getContactLeadsDB().catch(() => []));
+      } else if (tabToLoad === 'analytics' && (force || testResults.length === 0)) {
+        setTestResults(await getAllTestResultsDB().catch(() => []));
       }
     } catch (err) {
       console.error("Error loading tab data:", err);
@@ -112,6 +118,21 @@ export default function AdminDashboard({ onExitAdmin }) {
       await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Reject request error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteLead = async (lead) => {
+    if (!window.confirm(`האם את/ה בטוח/ה שברצונך למחוק את הליד של ${lead.name}?`)) return;
+    setLoading(true);
+    try {
+      await deleteContactLeadDB(lead.id);
+      setMsg(`הליד של ${lead.name} נמחק בהצלחה.`);
+      await loadActiveTabData(activeTab, true);
+    } catch (err) {
+      console.error("Error deleting lead:", err);
+      setMsg("שגיאה במחיקת הליד.");
     } finally {
       setLoading(false);
     }
@@ -287,6 +308,14 @@ export default function AdminDashboard({ onExitAdmin }) {
           style={{ background: activeTab === 'leads' ? '#881337' : 'transparent', color: activeTab === 'leads' ? '#fff' : '#be123c', borderColor: activeTab === 'leads' ? 'transparent' : '#be123c' }}
         >
           לידים שיצרו קשר
+        </button>
+
+        <button
+          className={`btn-secondary ${activeTab === 'analytics' ? 'btn-primary' : ''}`}
+          onClick={() => setActiveTab('analytics')}
+        >
+          <TrendingUp style={{ width: 18, height: 18 }} />
+          אנליטיקות ומגמות
         </button>
       </div>
 
@@ -579,8 +608,19 @@ export default function AdminDashboard({ onExitAdmin }) {
                       <strong style={{ fontSize: '1.1rem', color: '#0f172a' }}>{lead.name}</strong> - 
                       <span style={{ color: '#e11d48', fontWeight: 'bold', marginLeft: '0.5rem' }}> {lead.phone}</span>
                     </div>
-                    <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
-                      {new Date(lead.created_at).toLocaleString('he-IL')}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <span style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                        {new Date(lead.created_at).toLocaleString('he-IL')}
+                      </span>
+                      <button
+                        onClick={() => handleDeleteLead(lead)}
+                        disabled={loading}
+                        className="btn-secondary"
+                        style={{ color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.4)', padding: '0.3rem 0.5rem' }}
+                        title="מחק ליד"
+                      >
+                        <Trash2 style={{ width: 14, height: 14 }} />
+                      </button>
                     </div>
                   </div>
                   <div>
@@ -601,6 +641,120 @@ export default function AdminDashboard({ onExitAdmin }) {
           )}
         </div>
       )}
+
+      {/* TAB: Analytics */}
+      {activeTab === 'analytics' && (() => {
+        if (loading && testResults.length === 0) {
+          return <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>טוען נתונים...</div>;
+        }
+        if (testResults.length === 0) {
+          return <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>אין עדיין תוצאות מבדקים.</div>;
+        }
+
+        // 1. Top Matches
+        const matchCounts = {};
+        testResults.forEach(res => {
+          const matchName = res.top_match || 'לא ידוע';
+          matchCounts[matchName] = (matchCounts[matchName] || 0) + 1;
+        });
+        const topMatchesData = Object.entries(matchCounts)
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 10); // top 10
+
+        // 2. Average Parameter Preferences
+        const paramTotals = {};
+        const paramCounts = {};
+        testResults.forEach(res => {
+          if (res.preferences?.ratings) {
+            Object.entries(res.preferences.ratings).forEach(([paramId, val]) => {
+              if (val) {
+                paramTotals[paramId] = (paramTotals[paramId] || 0) + val;
+                paramCounts[paramId] = (paramCounts[paramId] || 0) + 1;
+              }
+            });
+          }
+        });
+        const paramAveragesData = PARAM_DEFINITIONS.map(p => ({
+          name: p.label,
+          avg: paramCounts[p.id] ? Number((paramTotals[p.id] / paramCounts[p.id]).toFixed(1)) : 0
+        })).sort((a, b) => b.avg - a.avg);
+
+        // 3. Regions
+        const regionCounts = {};
+        testResults.forEach(res => {
+          const region = res.preferences?.region || 'all';
+          const rName = REGION_TRANSLATIONS[region] || region;
+          regionCounts[rName] = (regionCounts[rName] || 0) + 1;
+        });
+        const regionData = Object.entries(regionCounts).map(([name, value]) => ({ name, value }));
+        const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#a855f7'];
+
+        return (
+          <div style={{ animation: 'fadeIn 0.3s', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="glass-card">
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1rem', color: '#1e293b' }}>
+                10 המדרשות המובילות בתוצאות ההתאמה
+              </h3>
+              <div style={{ width: '100%', height: 350 }}>
+                <ResponsiveContainer>
+                  <BarChart data={topMatchesData} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
+                    <XAxis type="number" />
+                    <YAxis dataKey="name" type="category" width={150} tick={{ fontSize: 12 }} />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#e11d48" radius={[0, 4, 4, 0]} name="מספר פעמים שהוצעה" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem' }}>
+              <div className="glass-card">
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1rem', color: '#1e293b' }}>
+                  ממוצע ציוני ההעדפות בשאלונים (1 עד 5)
+                </h3>
+                <div style={{ width: '100%', height: 350 }}>
+                  <ResponsiveContainer>
+                    <BarChart data={paramAveragesData} margin={{ top: 5, right: 5, left: 0, bottom: 40 }}>
+                      <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-45} textAnchor="end" />
+                      <YAxis domain={[1, 5]} />
+                      <Tooltip />
+                      <Bar dataKey="avg" fill="#10b981" radius={[4, 4, 0, 0]} name="ממוצע ציון מבוקש" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div className="glass-card">
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1rem', color: '#1e293b' }}>
+                  העדפת אזורים גאוגרפיים
+                </h3>
+                <div style={{ width: '100%', height: 300 }}>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie
+                        data={regionData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={true}
+                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                        outerRadius={100}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {regionData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* EDIT / CREATE MIDRASHA MODAL */}
       {editingYeshiva && (
