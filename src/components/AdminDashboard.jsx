@@ -54,7 +54,6 @@ export default function AdminDashboard({ onExitAdmin }) {
       if (isValid) {
         setIsAuthenticated(true);
         setAuthError('');
-        loadAdminData();
       } else {
         setAuthError('סיסמה שגויה, נסה שנית.');
       }
@@ -66,32 +65,37 @@ export default function AdminDashboard({ onExitAdmin }) {
     }
   };
 
-  const loadAdminData = async () => {
+  const loadActiveTabData = async (tabToLoad = activeTab, force = false) => {
     setLoading(true);
     try {
-      const [reqs, subs, yeshList, leadsList] = await Promise.all([
-        getYeshivaRequestsDB().catch(e => { console.error(e); return []; }),
-        getStudentSubmissionsDB().catch(e => { console.error(e); return []; }),
-        getYeshivotDB().catch(e => { console.error(e); return []; }),
-        getContactLeadsDB().catch(e => { console.error(e); return []; })
-      ]);
-      setRequests(reqs);
-      setSubmissions(subs);
-      setYeshivot(yeshList);
-      setLeads(leadsList);
+      if (tabToLoad === 'requests' && (force || requests.length === 0)) {
+        setRequests(await getYeshivaRequestsDB().catch(() => []));
+      } else if (tabToLoad === 'submissions' && (force || submissions.length === 0)) {
+        setSubmissions(await getStudentSubmissionsDB().catch(() => []));
+      } else if (tabToLoad === 'yeshivot' && (force || yeshivot.length === 0)) {
+        setYeshivot(await getYeshivotDB().catch(() => []));
+      } else if (tabToLoad === 'leads' && (force || leads.length === 0)) {
+        setLeads(await getContactLeadsDB().catch(() => []));
+      }
     } catch (err) {
-      console.error("Error loading admin data:", err);
+      console.error("Error loading tab data:", err);
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadActiveTabData(activeTab, false);
+    }
+  }, [activeTab, isAuthenticated]);
 
   const handleApproveRequest = async (request) => {
     setLoading(true);
     try {
       await approveYeshivaRequestDB(request);
       setMsg(`מדרשה "${request.yeshiva_name}" אושרה ונוספה למאגר בהצלחה!`);
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Approve error:", err);
     } finally {
@@ -105,7 +109,7 @@ export default function AdminDashboard({ onExitAdmin }) {
     try {
       await deleteYeshivaRequestDB(request.id);
       setMsg(`הבקשה עבור "${request.yeshiva_name}" נמחקה.`);
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Reject request error:", err);
     } finally {
@@ -119,7 +123,7 @@ export default function AdminDashboard({ onExitAdmin }) {
     try {
       await deleteStudentSubmissionDB(submission.id);
       setMsg(`דיווח התלמידה עבור "${submission.yeshiva_name}" נמחק.`);
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Delete submission error:", err);
     } finally {
@@ -133,7 +137,7 @@ export default function AdminDashboard({ onExitAdmin }) {
       const updated = await recalculateYeshivaAveragesDB();
       setYeshivot(updated);
       setMsg("ממוצעי המדרשות במאגר חושבו ועודכנו מחדש לפי כל הדיווחים!");
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Recalculate error:", err);
     } finally {
@@ -150,7 +154,7 @@ export default function AdminDashboard({ onExitAdmin }) {
       await saveYeshivaDB(editingYeshiva);
       setMsg(`המדרשה "${editingYeshiva.name}" שנערכה נשמרה בהצלחה במאגר!`);
       setEditingYeshiva(null);
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Save yeshiva error:", err);
     } finally {
@@ -164,7 +168,7 @@ export default function AdminDashboard({ onExitAdmin }) {
     try {
       await deleteYeshivaDB(id);
       setMsg(`המדרשה "${name}" הוסרה מהמאגר.`);
-      loadAdminData();
+      await loadActiveTabData(activeTab, true);
     } catch (err) {
       console.error("Delete yeshiva error:", err);
     } finally {
@@ -233,7 +237,7 @@ export default function AdminDashboard({ onExitAdmin }) {
         </div>
 
         <div style={{ display: 'flex', gap: '0.8rem' }}>
-          <button onClick={loadAdminData} disabled={loading} className="btn-secondary">
+          <button onClick={() => loadActiveTabData(activeTab, true)} disabled={loading} className="btn-secondary">
             <RefreshCw style={{ width: 16, height: 16 }} />
             רענן נתונים
           </button>
@@ -258,7 +262,7 @@ export default function AdminDashboard({ onExitAdmin }) {
           onClick={() => setActiveTab('requests')}
         >
           <Inbox style={{ width: 18, height: 18 }} />
-          בקשות להוספת מדרשות ({requests.length})
+          בקשות להוספת מדרשות
         </button>
 
         <button
@@ -266,7 +270,7 @@ export default function AdminDashboard({ onExitAdmin }) {
           onClick={() => setActiveTab('submissions')}
         >
           <Users style={{ width: 18, height: 18 }} />
-          דיווחי בנות מדרשה כיום ({submissions.length})
+          דיווחי בנות מדרשה כיום
         </button>
 
         <button
@@ -274,7 +278,7 @@ export default function AdminDashboard({ onExitAdmin }) {
           onClick={() => setActiveTab('yeshivot')}
         >
           <Database style={{ width: 18, height: 18 }} />
-          ניהול מאגר המדרשות ({yeshivot.length})
+          ניהול מאגר המדרשות
         </button>
 
         <button
@@ -282,7 +286,7 @@ export default function AdminDashboard({ onExitAdmin }) {
           onClick={() => setActiveTab('leads')}
           style={{ background: activeTab === 'leads' ? '#881337' : 'transparent', color: activeTab === 'leads' ? '#fff' : '#be123c', borderColor: activeTab === 'leads' ? 'transparent' : '#be123c' }}
         >
-          לידים שיצרו קשר ({leads.length})
+          לידים שיצרו קשר
         </button>
       </div>
 
@@ -294,7 +298,9 @@ export default function AdminDashboard({ onExitAdmin }) {
             בקשות שהוגשו ע"י משתמשות להוספת מדרשות חדשות
           </h2>
 
-          {requests.length === 0 ? (
+          {loading && requests.length === 0 ? (
+            <p style={{ color: '#4b5563' }}>טוען נתונים...</p>
+          ) : requests.length === 0 ? (
             <p style={{ color: '#4b5563' }}>אין כרגע בקשות ממתינות במערכת.</p>
           ) : (
             requests.map(req => (
@@ -412,7 +418,11 @@ export default function AdminDashboard({ onExitAdmin }) {
               </button>
             </div>
 
-            {displayedSubmissions.length === 0 ? (
+            {loading && displayedSubmissions.length === 0 ? (
+              <div style={{ padding: '1.5rem', textAlign: 'center', color: '#4b5563', background: '#fff0f3', borderRadius: 8 }}>
+                טוען נתונים...
+              </div>
+            ) : displayedSubmissions.length === 0 ? (
               <div style={{ padding: '1.5rem', textAlign: 'center', color: '#4b5563', background: '#fff0f3', borderRadius: 8 }}>
                 {submissionFilter === 'pending' 
                   ? '✓ כל תשובות הבנות במערכת כבר חושבו ועודכנו בממוצעי המדרשות!' 
@@ -478,7 +488,7 @@ export default function AdminDashboard({ onExitAdmin }) {
             <div>
               <h2 className="section-title" style={{ margin: 0, color: '#111827' }}>
                 <Database className="w-5 h-5 text-rose-700" />
-                ניהול מאגר המדרשות ({yeshivot.length} מדרשות)
+                ניהול מאגר המדרשות
               </h2>
               <p style={{ color: '#4b5563', fontSize: '0.9rem', marginTop: 4 }}>
                 תוכל לערוך, להוסיף ולמחוק מדרשות מהמאגר בכל עת
@@ -499,7 +509,9 @@ export default function AdminDashboard({ onExitAdmin }) {
             </button>
           </div>
 
-          {yeshivot.length === 0 ? (
+          {loading && yeshivot.length === 0 ? (
+            <p style={{ color: '#4b5563' }}>טוען נתונים...</p>
+          ) : yeshivot.length === 0 ? (
             <p style={{ color: '#4b5563' }}>אין מדרשות במאגר.</p>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
@@ -548,9 +560,13 @@ export default function AdminDashboard({ onExitAdmin }) {
       {activeTab === 'leads' && (
         <div style={{ animation: 'fadeIn 0.3s' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '1rem', color: '#111827' }}>
-            לידים שיצרו קשר ({leads.length})
+            לידים שיצרו קשר
           </h2>
-          {leads.length === 0 ? (
+          {loading && leads.length === 0 ? (
+            <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
+              טוען נתונים...
+            </div>
+          ) : leads.length === 0 ? (
             <div className="glass-card" style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
               לא התקבלו לידים עד כה
             </div>
