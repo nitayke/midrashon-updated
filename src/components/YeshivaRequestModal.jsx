@@ -129,39 +129,16 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yesh
               <CheckCircle style={{ width: 48, height: 48 }} />
             </div>
             <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '0.5rem', color: '#111827' }}>
-              הבקשה נרשמה ונשלחה לאדמין!
+              הבקשה נשלחה בהצלחה והיא בבדיקה.
             </h3>
             <p style={{ color: '#4b5563', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              הבקשה נשמרה במאגר ונשלחה בהצלחה הודעת דוא"ל אוטומטית לאדמין עם הפרמטרים המוצעים.
+              תודה רבה על העזרה בהרחבת המאגר! צוות האתר יבחן את הבקשה בהקדם.
             </p>
 
-            <div style={{ background: '#fff0f3', border: '1px solid #f3c2ce', padding: '1rem', borderRadius: 12, marginBottom: '1.5rem', textAlign: 'right' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: '#881337', marginBottom: 4 }}>
-                <MailCheck style={{ width: 18, height: 18 }} />
-                סטטוס מייל אדמין:
-              </div>
-              <div style={{ fontSize: '0.88rem', color: '#374151' }}>
-                נשלחה התראה לאדמין (nitayke1@gmail.com). הבקשה מופיעה כעת בלשונית "בקשות" בממשק הניהול!
-              </div>
-            </div>
-
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: '0.8rem', justifyContent: 'center', flexWrap: 'wrap', width: '100%' }}>
-                <a
-                  href={generateMailtoLink(submittedRequest)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-gold"
-                  style={{ textDecoration: 'none', padding: '0.6rem 1.2rem', fontSize: '0.9rem', flex: 1, justifyContent: 'center' }}
-                >
-                  <Mail style={{ width: 16, height: 16 }} />
-                  פתיחה במייל לשליחה ישירה (Gmail / Outlook)
-                </a>
-
-                <button type="button" onClick={onClose} className="btn-primary" style={{ padding: '0.6rem 1.8rem', minWidth: 120 }}>
-                  סגור
-                </button>
-              </div>
+              <button type="button" onClick={onClose} className="btn-primary" style={{ padding: '0.6rem 1.8rem', minWidth: 120 }}>
+                סגור
+              </button>
 
               {/* Discreet Admin Link */}
               <button
@@ -181,13 +158,13 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yesh
                   opacity: 0.7 
                 }}
               >
-                (אדמין? לחץ כאן לממשק הניהול לאישור המדרשה)
+                (אדמין? לחצי כאן לממשק הניהול)
               </button>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '1rem', position: 'relative' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.4rem', color: '#111827' }}>
                 שם המדרשה *
               </label>
@@ -197,14 +174,23 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yesh
                 placeholder="לדוגמה: מדרשת מגדל עוז"
                 value={yeshivaName}
                 onChange={(e) => setYeshivaName(e.target.value)}
-                list="existing-midrashot"
                 required
               />
-              <datalist id="existing-midrashot">
-                {yeshivotList.map(y => (
-                  <option key={y.id} value={y.name} />
-                ))}
-              </datalist>
+              {yeshivaName.trim() && !existingMatch && yeshivotList.some(y => y.name.includes(yeshivaName.trim())) && (
+                <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, marginTop: 4, zIndex: 10, maxHeight: 150, overflowY: 'auto', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+                  {yeshivotList.filter(y => y.name.includes(yeshivaName.trim())).map(y => (
+                    <div 
+                      key={y.id} 
+                      onClick={() => setYeshivaName(y.name)}
+                      style={{ padding: '0.6rem 1rem', cursor: 'pointer', borderBottom: '1px solid #f1f5f9', color: '#334155' }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'}
+                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
+                      {y.name}
+                    </div>
+                  ))}
+                </div>
+              )}
               {existingMatch && (
                 <div style={{ color: '#b91c1c', fontSize: '0.85rem', marginTop: '0.4rem', fontWeight: 600 }}>
                   שימי לב: המדרשה "{existingMatch.name}" כבר קיימת במאגר! אנא ודאי שאינך מוסיפה כפילות.
