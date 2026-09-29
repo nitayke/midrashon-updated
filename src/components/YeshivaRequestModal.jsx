@@ -6,8 +6,8 @@ import CustomSelect from './CustomSelect';
 
 export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yeshivotList = [] }) {
   const [yeshivaName, setYeshivaName] = useState('');
-  const [type, setType] = useState('before_service');
-  const [region, setRegion] = useState('center');
+  const [type, setType] = useState('');
+  const [region, setRegion] = useState('');
   const [submitterEmail, setSubmitterEmail] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -77,6 +77,15 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yesh
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!yeshivaName.trim()) return;
+
+    if (!type) {
+      alert("אנא בחרי סוג מדרשה כדי להמשיך.");
+      return;
+    }
+    if (!region) {
+      alert("אנא בחרי אזור גאוגרפי כדי להמשיך.");
+      return;
+    }
 
     setIsSubmitting(true);
     const requestPayload = {
