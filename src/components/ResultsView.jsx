@@ -80,49 +80,48 @@ export default function ResultsView({ results, userPreferences, yeshivotList, on
   const sendLeadEmailToAdmin = async (leadData) => {
     const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || "nitayke1@gmail.com";
     
-    let prefsText = '';
+    let typeHebrew = 'לא צוין';
+    let regionHebrew = 'לא צוין';
+    let ratingsText = 'לא צוינו ההעדפות';
+
     if (leadData.preferences) {
       const { type, region, ratings, ignoreParams } = leadData.preferences;
-      const typeHebrew = TYPE_TRANSLATIONS[type] || type;
-      const regionHebrew = REGION_TRANSLATIONS[region] || region;
+      typeHebrew = TYPE_TRANSLATIONS[type] || type;
+      regionHebrew = REGION_TRANSLATIONS[region] || region;
       
-      const ratingsText = PARAM_DEFINITIONS.map(p => {
+      ratingsText = PARAM_DEFINITIONS.map(p => {
         const val = ratings[p.id];
         const isIgnored = ignoreParams && ignoreParams[p.id];
         return `- ${p.label}: ${isIgnored || !val ? 'ללא העדפה' : val}`;
       }).join('\n');
-
-      prefsText = `\nנתוני השאלון שהתלמידה מילאה (לרקע נוסף):\n` +
-                  `סוג מוסד מבוקש: ${typeHebrew}\n` +
-                  `אזור גאוגרפי: ${regionHebrew}\n` +
-                  `העדפות ודירוגים:\n${ratingsText}\n`;
     }
 
-    const emailPayload = {
-      to: adminEmail,
-      subject: `[מדרשון] פניית תלמידה מתעניינת למדרשת ${leadData.midrasha_name}`,
-      message: `שלום רב,\n\n` +
-               `התקבלה פנייה חדשה מתלמידה המעוניינת לקבל פרטים נוספים אודות:\n` +
-               `**${leadData.midrasha_name}**\n\n` +
-               `פרטי התלמידה ליצירת קשר:\n` +
-               `שם: ${leadData.name}\n` +
-               `טלפון: ${leadData.phone}\n\n` +
-               `(התאמה מובילה שהמערכת הציעה לה: ${leadData.top_match})\n` +
-               `${prefsText}\n` +
-               `בברכה,\nצוות מדרשון`
-    };
-
     try {
-      const webhookUrl = import.meta.env.VITE_EMAIL_WEBHOOK_URL;
-      if (webhookUrl) {
-        await fetch(webhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(emailPayload)
-        });
-      }
+      const payload = {
+        _subject: `[מדרשון] פניית תלמידה מתעניינת ל${leadData.midrasha_name}`,
+        מדרשה_מבוקשת: leadData.midrasha_name,
+        שם_התלמידה: leadData.name,
+        טלפון: leadData.phone,
+        התאמה_מובילה_שיצאה: leadData.top_match,
+        רקע_אזור_גאוגרפי: regionHebrew,
+        רקע_סוג_מדרשה: typeHebrew,
+        פירוט_העדפות_מהשאלון: ratingsText
+      };
+
+      // Fire and forget - do not await!
+      fetch(`https://formsubmit.co/ajax/${adminEmail}`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          ...payload,
+          _template: "table"
+        })
+      }).catch(err => console.log("Silent formsubmit error:", err));
     } catch (err) {
-      console.log("Lead email notification logged:", emailPayload);
+      console.log("Lead email notification error:", err);
     }
   };
 
@@ -143,7 +142,7 @@ export default function ResultsView({ results, userPreferences, yeshivotList, on
       
       const { saveContactLeadDB } = await import('../firebase.js');
       await saveContactLeadDB(leadData);
-      await sendLeadEmailToAdmin(leadData);
+      sendLeadEmailToAdmin(leadData);
       
       setSubmittedLeads(prev => ({ ...prev, [midrashaId]: true }));
       setActiveLeadYeshivaId(null);
