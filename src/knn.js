@@ -271,6 +271,7 @@ export const calculateKNNMatches = (userPreferences, yeshivotList, k = 3) => {
       name: midrasha.name,
       type: midrasha.type,
       region: midrasha.region,
+      has_leads: midrasha.has_leads,
       matchScore,
       distance: hybridDistance
     };

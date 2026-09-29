@@ -4,7 +4,7 @@ import { saveYeshivaRequestDB } from '../firebase';
 import { PARAM_DEFINITIONS, REGIONS, TYPES, REGION_TRANSLATIONS, TYPE_TRANSLATIONS } from '../knn';
 import CustomSelect from './CustomSelect';
 
-export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin }) {
+export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin, yeshivotList = [] }) {
   const [yeshivaName, setYeshivaName] = useState('');
   const [type, setType] = useState('before_service');
   const [region, setRegion] = useState('center');
@@ -22,6 +22,9 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin }) {
   const [submittedRequest, setSubmittedRequest] = useState(null);
 
   if (!isOpen) return null;
+
+  // Check if name already exists
+  const existingMatch = yeshivotList.find(y => y.name.trim() === yeshivaName.trim());
 
   const handleRatingChange = (id, val) => {
     setRatings(prev => ({ ...prev, [id]: Number(val) }));
@@ -185,8 +188,19 @@ export default function YeshivaRequestModal({ isOpen, onClose, onOpenAdmin }) {
                 placeholder="לדוגמה: מדרשת מגדל עוז"
                 value={yeshivaName}
                 onChange={(e) => setYeshivaName(e.target.value)}
+                list="existing-midrashot"
                 required
               />
+              <datalist id="existing-midrashot">
+                {yeshivotList.map(y => (
+                  <option key={y.id} value={y.name} />
+                ))}
+              </datalist>
+              {existingMatch && (
+                <div style={{ color: '#b91c1c', fontSize: '0.85rem', marginTop: '0.4rem', fontWeight: 600 }}>
+                  שימי לב: המדרשה "{existingMatch.name}" כבר קיימת במאגר! אנא ודאי שאינך מוסיפה כפילות.
+                </div>
+              )}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>

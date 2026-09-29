@@ -6,9 +6,11 @@ import {
   addDoc, 
   doc, 
   setDoc, 
-  deleteDoc 
+  deleteDoc,
+  writeBatch
 } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
+import { getAnalytics, isSupported } from "firebase/analytics";
 import initialMidrashot from './data/initialMidrashot.json';
 
 // Read Firebase keys from environment variables with fallback to dedicated Midrashon DB (midrashon-64d94)
@@ -37,6 +39,12 @@ if (isFirebaseConfigured) {
     app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     auth = getAuth(app);
+    isSupported().then(yes => {
+      if (yes) {
+        getAnalytics(app);
+        console.log("📈 Firebase Analytics initialized successfully for Midrashon!");
+      }
+    });
     console.log("🔥 Live Firebase Firestore connected for Midrashon!");
   } catch (err) {
     console.error("Firebase Initialization Error:", err);
@@ -93,6 +101,44 @@ export const getYeshivotDB = async () => {
     }
   }
   return getLocalMidrashot();
+};
+
+// 1.5 Save All Test Results (Automatic Logging)
+export const saveTestResultDB = async (testData) => {
+  const dataToSave = {
+    ...testData,
+    created_at: new Date().toISOString()
+  };
+
+  if (isFirebaseConfigured && db) {
+    try {
+      await addDoc(collection(db, "all_test_results_midrashon"), dataToSave);
+      console.log("Logged test result to Firestore!");
+    } catch (err) {
+      console.error("Firestore save test result error:", err);
+    }
+  }
+};
+
+// 1.8 Save Contact Lead (For callback)
+export const saveContactLeadDB = async (leadData) => {
+  const dataToSave = {
+    ...leadData,
+    status: 'new',
+    created_at: new Date().toISOString()
+  };
+
+  if (isFirebaseConfigured && db) {
+    try {
+      await addDoc(collection(db, "contact_leads_midrashon"), dataToSave);
+      console.log("Saved contact lead to Firestore!");
+      return true;
+    } catch (err) {
+      console.error("Firestore save lead error:", err);
+      return false;
+    }
+  }
+  return false;
 };
 
 // 2. Save Student Submission
@@ -265,49 +311,57 @@ export const recalculateYeshivaAveragesDB = async () => {
 
   const updatedMidrashot = [...midrashotList];
 
-  for (const [midrashaName, subs] of Object.entries(grouped)) {
-    const targetMidrasha = updatedMidrashot.find(y => y.name === midrashaName);
-    if (targetMidrasha) {
-      const paramSums = {};
-      const count = subs.length;
-
-      subs.forEach(s => {
-        if (s.ratings) {
-          Object.entries(s.ratings).forEach(([paramKey, score]) => {
-            paramSums[paramKey] = (paramSums[paramKey] || 0) + Number(score);
-          });
-        }
-      });
-
-      const newRatings = { ...targetMidrasha.ratings };
-      const currentCount = targetMidrasha.submissions_count || 1;
-      const totalCount = currentCount + count;
-
-      Object.keys(paramSums).forEach(paramKey => {
-        const oldSum = (targetMidrasha.ratings[paramKey] || 3) * currentCount;
-        const newSum = oldSum + paramSums[paramKey];
-        newRatings[paramKey] = Number((newSum / totalCount).toFixed(1));
-      });
-
-      targetMidrasha.ratings = newRatings;
-      targetMidrasha.submissions_count = totalCount;
-
-      await saveYeshivaDB(targetMidrasha);
-    }
-  }
-
-  // Mark all processed submissions as processed: true in Firestore & LocalStorage
   if (isFirebaseConfigured && db) {
     try {
-      for (const sub of pendingSubs) {
-        if (sub.id && !sub.id.startsWith('sub_')) {
-          await setDoc(doc(db, "student_submissions_midrashon", sub.id), { processed: true }, { merge: true });
+      const batch = writeBatch(db);
+      
+      for (const [midrashaName, subs] of Object.entries(grouped)) {
+        const targetMidrasha = updatedMidrashot.find(y => y.name === midrashaName);
+        if (targetMidrasha) {
+          const paramSums = {};
+          const count = subs.length;
+
+          subs.forEach(s => {
+            if (s.ratings) {
+              Object.entries(s.ratings).forEach(([paramKey, score]) => {
+                paramSums[paramKey] = (paramSums[paramKey] || 0) + Number(score);
+              });
+            }
+          });
+
+          const newRatings = { ...targetMidrasha.ratings };
+          const currentCount = targetMidrasha.submissions_count || 1;
+          const totalCount = currentCount + count;
+
+          Object.keys(paramSums).forEach(paramKey => {
+            const oldSum = (targetMidrasha.ratings[paramKey] || 3) * currentCount;
+            const newSum = oldSum + paramSums[paramKey];
+            newRatings[paramKey] = Number((newSum / totalCount).toFixed(1));
+          });
+
+          targetMidrasha.ratings = newRatings;
+          targetMidrasha.submissions_count = totalCount;
+
+          batch.set(doc(db, "midrashot", targetMidrasha.id), targetMidrasha, { merge: true });
         }
       }
+
+      // Mark submissions as processed in the same batch
+      for (const sub of pendingSubs) {
+        if (sub.id && !sub.id.startsWith('sub_')) {
+          batch.set(doc(db, "student_submissions_midrashon", sub.id), { processed: true }, { merge: true });
+        }
+      }
+
+      await batch.commit();
+      console.log("Batch update completed for midrashot and submissions.");
     } catch (err) {
-      console.error("Firestore mark processed submissions error:", err);
+      console.error("Firestore batch update error:", err);
     }
   }
+
+  // Update LocalStorage cache
+  localStorage.setItem(LOCAL_MIDRASHOT_KEY, JSON.stringify(updatedMidrashot));
 
   // Update LocalStorage cache as well
   const allSubmissions = JSON.parse(localStorage.getItem(LOCAL_SUBMISSIONS_KEY) || '[]');

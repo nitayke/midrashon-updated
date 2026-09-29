@@ -8,6 +8,12 @@ import AutocompleteYeshivaSelect from './AutocompleteYeshivaSelect';
 const LOCAL_SURVEY_SAVED_KEY = 'midrashon_has_submitted_student_survey';
 
 export default function ResultsView({ results, userPreferences, yeshivotList, onRestart, onRequestAddYeshiva }) {
+    const [isLeadSubmitting, setIsLeadSubmitting] = useState(false);
+  const [submittedLeads, setSubmittedLeads] = useState({});
+  const [activeLeadYeshivaId, setActiveLeadYeshivaId] = useState(null);
+  const [leadName, setLeadName] = useState('');
+  const [leadPhone, setLeadPhone] = useState('');
+
   const [isCurrentStudent, setIsCurrentStudent] = useState(null); // true, false, null
   const [selectedYeshivaName, setSelectedYeshivaName] = useState('');
   const [customYeshivaInput, setCustomYeshivaInput] = useState('');
@@ -67,6 +73,86 @@ export default function ResultsView({ results, userPreferences, yeshivotList, on
       }
     } catch (err) {
       console.log("Background email notification logged:", emailPayload);
+    }
+  };
+
+  
+  const sendLeadEmailToAdmin = async (leadData) => {
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL || "nitayke1@gmail.com";
+    
+    let prefsText = '';
+    if (leadData.preferences) {
+      const { type, region, ratings, ignoreParams } = leadData.preferences;
+      const typeHebrew = TYPE_TRANSLATIONS[type] || type;
+      const regionHebrew = REGION_TRANSLATIONS[region] || region;
+      
+      const ratingsText = PARAM_DEFINITIONS.map(p => {
+        const val = ratings[p.id];
+        const isIgnored = ignoreParams && ignoreParams[p.id];
+        return `- ${p.label}: ${isIgnored || !val ? 'ללא העדפה' : val}`;
+      }).join('\n');
+
+      prefsText = `\nנתוני השאלון שהתלמידה מילאה (לרקע נוסף):\n` +
+                  `סוג מוסד מבוקש: ${typeHebrew}\n` +
+                  `אזור גאוגרפי: ${regionHebrew}\n` +
+                  `העדפות ודירוגים:\n${ratingsText}\n`;
+    }
+
+    const emailPayload = {
+      to: adminEmail,
+      subject: `[מדרשון] פניית תלמידה מתעניינת למדרשת ${leadData.midrasha_name}`,
+      message: `שלום רב,\n\n` +
+               `התקבלה פנייה חדשה מתלמידה המעוניינת לקבל פרטים נוספים אודות:\n` +
+               `**${leadData.midrasha_name}**\n\n` +
+               `פרטי התלמידה ליצירת קשר:\n` +
+               `שם: ${leadData.name}\n` +
+               `טלפון: ${leadData.phone}\n\n` +
+               `(התאמה מובילה שהמערכת הציעה לה: ${leadData.top_match})\n` +
+               `${prefsText}\n` +
+               `בברכה,\nצוות מדרשון`
+    };
+
+    try {
+      const webhookUrl = import.meta.env.VITE_EMAIL_WEBHOOK_URL;
+      if (webhookUrl) {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(emailPayload)
+        });
+      }
+    } catch (err) {
+      console.log("Lead email notification logged:", emailPayload);
+    }
+  };
+
+  const handleLeadSubmit = async (e, midrashaId, midrashaName) => {
+    e.preventDefault();
+    if (!leadName.trim() || !leadPhone.trim()) return;
+    
+    setIsLeadSubmitting(true);
+    try {
+      const leadData = {
+        name: leadName,
+        phone: leadPhone,
+        midrasha_id: midrashaId,
+        midrasha_name: midrashaName,
+        top_match: results[0]?.name || 'N/A',
+        preferences: userPreferences
+      };
+      
+      const { saveContactLeadDB } = await import('../firebase.js');
+      await saveContactLeadDB(leadData);
+      await sendLeadEmailToAdmin(leadData);
+      
+      setSubmittedLeads(prev => ({ ...prev, [midrashaId]: true }));
+      setActiveLeadYeshivaId(null);
+      setLeadName('');
+      setLeadPhone('');
+    } catch (err) {
+      console.error("Save lead error:", err);
+    } finally {
+      setIsLeadSubmitting(false);
     }
   };
 
@@ -163,6 +249,71 @@ export default function ResultsView({ results, userPreferences, yeshivotList, on
                 <div className="match-score-badge">
                   {item.matchScore}% התאמה
                 </div>
+              
+              {/* Lead Generation per Midrasha CTA */}
+              {item.has_leads && (
+                <div style={{ marginTop: '0.8rem', paddingTop: '0.8rem', borderTop: '1px solid #f3f4f6' }}>
+                  {submittedLeads[item.id] ? (
+                    <div style={{ background: '#ecfdf5', color: '#065f46', padding: '0.6rem', borderRadius: '6px', textAlign: 'center', fontSize: '0.85rem', fontWeight: '500' }}>
+                      ✓ הפרטים נשלחו והועברו בהצלחה למדרשה!
+                    </div>
+                ) : activeLeadYeshivaId === item.id ? (
+                  <form onSubmit={(e) => handleLeadSubmit(e, item.id, item.name)} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#0f172a', marginBottom: '0.2rem' }}>
+                      השאירי פרטים ואנחנו נעביר אותם ל{item.name}:
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="שם מלא"
+                      value={leadName}
+                      onChange={(e) => setLeadName(e.target.value)}
+                      className="input-field"
+                      required
+                    />
+                    <input
+                      type="tel"
+                      placeholder="מספר טלפון"
+                      value={leadPhone}
+                      onChange={(e) => setLeadPhone(e.target.value)}
+                      className="input-field"
+                      required
+                    />
+                    <div style={{ display: 'flex', gap: '0.8rem' }}>
+                      <button type="submit" disabled={isLeadSubmitting} className="btn-primary" style={{ flex: 1, justifyContent: 'center' }}>
+                        {isLeadSubmitting ? 'שולחת...' : 'שלחי'}
+                      </button>
+                      <button type="button" onClick={() => setActiveLeadYeshivaId(null)} className="btn-secondary" style={{ flex: 1, justifyContent: 'center' }}>
+                        ביטול
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <button 
+                    onClick={() => { setActiveLeadYeshivaId(item.id); setLeadName(''); setLeadPhone(''); }}
+                    style={{ 
+                      width: '100%', 
+                      background: 'transparent', 
+                      color: '#881337', 
+                      border: '1px solid #f3c2ce', 
+                      borderRadius: '6px', 
+                      padding: '0.5rem', 
+                      fontSize: '0.9rem', 
+                      fontWeight: '600', 
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '0.4rem'
+                    }}
+                    onMouseOver={(e) => { e.currentTarget.style.background = '#fff0f3'; e.currentTarget.style.borderColor = '#881337'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = '#f3c2ce'; }}
+                  >
+                    מעוניינת לשמוע עוד? לחצי לקבלת פרטים
+                  </button>
+                )}
+              </div>
+              )}
               </div>
             </div>
           );
