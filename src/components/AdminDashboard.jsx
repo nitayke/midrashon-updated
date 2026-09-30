@@ -317,6 +317,29 @@ export default function AdminDashboard({ onExitAdmin }) {
           <TrendingUp style={{ width: 18, height: 18 }} />
           אנליטיקות ומגמות
         </button>
+
+        <button
+          className="btn-secondary"
+          onClick={async () => {
+            if (!window.confirm("האם לבחור רנדומלית מחצית מהמדרשות ולקבוע להן לידים?")) return;
+            try {
+              let count = 0;
+              for (const m of yeshivotList) {
+                const shouldHaveLeads = Math.random() >= 0.5;
+                const updated = { ...m, has_leads: shouldHaveLeads };
+                await saveYeshivaDB(updated);
+                if (shouldHaveLeads) count++;
+              }
+              alert(`בוצע בהצלחה! הוגדרו לידים ל-${count} מדרשות.`);
+              await loadActiveTabData(activeTab, true);
+            } catch (err) {
+              alert("שגיאה בעדכון מדרשות: " + err.message);
+            }
+          }}
+          style={{ background: '#ef4444', color: '#fff', borderColor: 'transparent' }}
+        >
+          בחר חצי מהמדרשות ללידים
+        </button>
       </div>
 
       {/* TAB 1: MIDRASHA ADDITION REQUESTS */}
