@@ -650,7 +650,7 @@ export default function AdminDashboard({ onExitAdmin }) {
                     <span style={{ color: '#475569', fontWeight: 600 }}>מדרשה מבוקשת:</span> {lead.midrasha_name || lead.yeshiva_name}
                   </div>
                   <div>
-                    <span style={{ color: '#475569', fontWeight: 600 }}>התאמה מובילה בשאלון:</span> {lead.top_match}
+                    <span style={{ color: '#475569', fontWeight: 600 }}>התאמה מובילה בשאלון:</span> {lead.top_match || (lead.top_matches && lead.top_matches.length > 0 ? lead.top_matches[0].name : 'לא זמין')}
                   </div>
                   <details style={{ marginTop: '0.5rem', background: '#fff0f3', padding: '0.5rem', borderRadius: '4px' }}>
                     <summary style={{ cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, color: '#e11d48' }}>צפי בהעדפות השאלון</summary>
@@ -677,7 +677,10 @@ export default function AdminDashboard({ onExitAdmin }) {
         // 1. Top Matches
         const matchCounts = {};
         testResults.forEach(res => {
-          const matchName = res.top_match;
+          let matchName = res.top_match;
+          if (!matchName && res.top_matches && res.top_matches.length > 0) {
+            matchName = res.top_matches[0].name;
+          }
           if (matchName && matchName !== 'לא ידוע' && matchName !== 'N/A') {
             matchCounts[matchName] = (matchCounts[matchName] || 0) + 1;
           }
